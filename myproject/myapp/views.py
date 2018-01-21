@@ -31,7 +31,7 @@ def main(request):
                 # HERE IS WHERE YOU NEED TO PROGRAM 
             # Redirect to the thank tou page after this
             email_string = " /n".join(url_list)
-            email = EmailMessage('Subject', email_string, to=['maybelp2006@gmail.com'])
+            email = EmailMessage('Subject', email_string, to=['maybelp2006@gmail.com', 'jobs@mercurytide.co.uk'])
            
             email.send()
           
