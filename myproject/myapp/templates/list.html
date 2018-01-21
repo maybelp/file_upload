@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/myapp.css">
+        <meta charset="utf-8">
+        <script src="/static/jquery.min.js"></script>
+        <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+        <script type="text/javascript" src="/static/my_js/main.js"></script>
+        <script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+        <title>Minimal Django File Upload Example</title>
+    </head>
+
+    <script>
+    $( document ).ready(function() {
+
+        document.getElementById("id_docfile").onchange = function() {
+            // Show first 3 files to be uploaded
+            files_string();
+        };
+
+        // Get the drag-drop zone element
+        var dropZone = document.getElementById('dropZone');
+
+        // Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
+        dropZone.addEventListener('dragover', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        });
+
+        // Upload multiple files on data drop
+        dropZone.addEventListener('drop', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var files = e.dataTransfer.files; // Array of all files
+            // send files to django as a form via ajax
+            send_files($, files);
+        });
+
+    });
+    </script>
+
+    <body>
+        <div id="myProgress">
+              <div id="myBar"></div>
+            </div> 
+        <!-- container just centers things -->
+        <div class="container">
+            <div class="row"><p></p><p></p></div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p></p>
+                </div>
+                <div class="col-sm-6">
+                    <!-- This is the drag and drop zone + image -->
+                    <img id="dropZone" src="/static/images/drag_drop.png">
+                    <!-- Form to upload files via browsing -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                </div>       
+                {% csrf_token %}
+
+                <p id="test">
+                    {{ form.docfile.errors }}
+                    <!-- Prettyfy browse button with bootstrap -->
+                    <label class="btn btn-primary btn-file" id="filer">
+                    {{ form.docfile }}
+                    Browse 
+                    </label>
+                    <span id="texto">No file chosen</span>
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                </div> 
+                <p><input onclick="up($);" class="btn btn-primary" type="button" value="Upload" /></p>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <!-- Use templating to display list of top 10 documents -->
+                {% if documents %}
+                    <ul>
+                        {% for document in documents %}
+                            <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No documents.</p>
+                {% endif %}
+            <div> 
+
+        </div>
+    </body>
+
+</html>
