@@ -27,15 +27,12 @@ def main(request):
                 file_url = request.build_absolute_uri(newdoc.docfile.url)
                 file_name = file.name 
                 url_list.append(file_name + ": |"+ file_url)
-
-                # HERE IS WHERE YOU NEED TO PROGRAM 
-            # Redirect to the thank tou page after this
+            # Redirect to the thank you page after this
             email_string = " /n".join(url_list)
             email = EmailMessage('Subject', email_string, to=['maybelp2006@gmail.com', 'jobs@mercurytide.co.uk'])
            
             email.send()
-          
-            # TODO: write email sending code here
+            
             return HttpResponseRedirect(reverse('thanks'))
 
 
